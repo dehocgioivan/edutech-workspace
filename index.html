@@ -7,7 +7,6 @@
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet"/>
-  
   <link href="css/style.css" rel="stylesheet"/>
 </head>
 
@@ -44,38 +43,25 @@
     <div class="dashboard-layout">
       
       <div class="sidebar">
-        <button class="sidebar-btn active" onclick="switchTab('tab-class')">
-          <i class="fa-solid fa-chalkboard-user"></i> Quản lý Lớp học
-        </button>
-        <button class="sidebar-btn" onclick="switchTab('tab-plan')">
-          <i class="fa-solid fa-layer-group"></i> Kế hoạch & Kho Game
-        </button>
-        <button class="sidebar-btn" onclick="switchTab('tab-report')">
-          <i class="fa-solid fa-chart-pie"></i> Báo cáo & Thống kê
-        </button>
-        <button class="sidebar-btn" onclick="switchTab('tab-settings')">
-          <i class="fa-solid fa-gear"></i> Cài đặt Hệ thống
-        </button>
+        <button class="sidebar-btn active" onclick="switchTab('tab-class')"><i class="fa-solid fa-chalkboard-user"></i> Quản lý Lớp học</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-plan')"><i class="fa-solid fa-layer-group"></i> Kế hoạch & Kho Game</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-report')"><i class="fa-solid fa-chart-pie"></i> Báo cáo & Thống kê</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-settings')"><i class="fa-solid fa-gear"></i> Cài đặt Hệ thống</button>
       </div>
 
       <div class="main-content">
         
         <div class="tab-panel active" id="tab-class">
-          
           <div class="app-card">
             <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-id-card"></i> Định danh Mạng lưới Giáo viên</h3>
             <div class="form-group">
-              <label>Mã định danh Giáo viên (Tiền tố bắt buộc để HS kết nối - VD: GVDUYEN01)</label>
-              <div style="display: flex; gap: 10px;">
-                <input class="form-input" id="teacherUniqueId" oninput="this.value = this.value.toUpperCase()" type="text" value="GVDUYEN01"/>
-                <button class="btn-glass" onclick="updateTeacherId()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
-              </div>
+              <label>Mã định danh hiện tại của bạn (Xem và đổi mã ở phần Cài đặt)</label>
+              <input class="form-input" id="teacherUniqueIdDisplay" type="text" readonly style="background: rgba(0,0,0,0.5); color: var(--primary-cyan); font-weight: bold; cursor: not-allowed;"/>
             </div>
           </div>
 
           <div class="app-card">
             <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-users-rectangle"></i> Khởi tạo Lớp học Mới</h3>
-            
             <div class="form-group">
               <label>Chế độ thiết bị đăng nhập</label>
               <div style="display: flex; gap: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border);">
@@ -128,19 +114,15 @@
         </div>
 
         <div class="tab-panel" id="tab-plan">
-          
           <div class="app-card" style="border-color: var(--primary-purple); box-shadow: 0 0 20px rgba(138, 43, 226, 0.05);">
             <h3 style="color: var(--primary-purple);"><i class="fa-solid fa-timeline"></i> Lên Kế Hoạch Bài Giảng</h3>
-            
             <div class="form-group" style="margin-top: 15px;">
               <label>Tên / Tiêu đề Giáo án</label>
               <input class="form-input" id="planTitle" type="text" placeholder="VD: TIẾT 1-2 CHÍ PHÈO" style="font-size: 16px; font-weight: bold; color: var(--primary-cyan);">
             </div>
-
             <div id="timelineBuilder" style="margin: 30px 0 30px 10px; border-left: 2px dashed var(--card-border); padding-left: 25px;">
               <div style="color: var(--text-muted); font-style: italic; font-size: 14px;">Chưa có tính năng nào trong kế hoạch. Hãy chọn từ Kho Ứng Dụng bên dưới.</div>
             </div>
-
             <div style="margin-top: 25px; padding: 20px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
               <div style="display: flex; align-items: center; gap: 15px;">
                 <div style="width: 45px; height: 45px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
@@ -162,29 +144,67 @@
             </div>
           </div>
           
-          <div class="app-grid" id="featureLibraryGrid">
-            </div>
-
+          <div class="app-grid" id="featureLibraryGrid"></div>
         </div>
 
         <div class="tab-panel" id="tab-report">
           <div class="app-card">
             <h3 style="color: var(--primary-cyan);"><i class="fa-solid fa-chart-pie"></i> Báo cáo & Thống kê</h3>
-            <p style="color: var(--text-muted); margin-top: 10px;">Biểu đồ thống kê kết quả học tập sẽ hiển thị tại đây.</p>
+            <p style="color: var(--text-muted); margin-top: 10px;">Tính năng đang phát triển...</p>
           </div>
         </div>
 
         <div class="tab-panel" id="tab-settings">
           <div class="app-card">
-            <h3 style="color: var(--primary-cyan);"><i class="fa-solid fa-gear"></i> Cài đặt Hệ thống</h3>
-            <p style="color: var(--text-muted); margin-top: 10px;">Cấu hình tài khoản, đồng bộ hóa Repository đang được phát triển.</p>
+            <h3 style="color: var(--primary-cyan); margin-bottom: 25px;"><i class="fa-solid fa-user-gear"></i> Quản lý Tài khoản & Cài đặt</h3>
+            
+            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--card-border);">
+              <h4 style="margin-bottom: 5px; color: #fff;">Mã Định Danh (Teacher ID)</h4>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Mã này là duy nhất (Unique) trên toàn hệ thống. Cần thiết để học sinh kết nối vào đúng phòng học.</p>
+              <div style="display: flex; gap: 10px;">
+                <input class="form-input" id="settingTeacherId" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="Nhập mã định danh mới (VD: GVDUYEN02)"/>
+                <button class="btn-glass" id="btnUpdateTeacherId" style="white-space: nowrap; color: var(--primary-cyan); border-color: var(--primary-cyan);">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Cập nhật Mã
+                </button>
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h4 style="color: #fff; margin-bottom: 5px;">Nhận Email Báo cáo & Tính năng</h4>
+                <p style="font-size: 13px; color: var(--text-muted);">Hệ thống sẽ gửi tổng kết cuối tuần và thông báo trò chơi mới.</p>
+              </div>
+              <label style="cursor: pointer;">
+                <input type="checkbox" id="settingEmailNotif" checked style="width: 20px; height: 20px; accent-color: var(--primary-cyan);">
+              </label>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--card-border);">
+              <h4 style="margin-bottom: 15px; color: #fff;">Bảo mật: Đổi mật khẩu</h4>
+              <div class="form-group" style="margin-bottom: 15px;">
+                <input class="form-input" id="settingNewPass" type="password" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)..."/>
+              </div>
+              <button class="btn-glass" id="btnChangePassword"><i class="fa-solid fa-key"></i> Đổi Mật khẩu</button>
+            </div>
+
+            <div style="background: rgba(239, 68, 68, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3);">
+              <h4 style="margin-bottom: 15px; color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Khu vực Nguy hiểm</h4>
+              <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn-submit" id="btnSettingsLogout" style="background: transparent; border: 1px solid var(--text-muted); color: #fff; margin-top:0; width: auto; padding: 10px 25px;">
+                  <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button>
+                <button class="btn-submit" id="btnDeleteAccount" style="background: #ef4444; margin-top:0; width: auto; padding: 10px 25px;">
+                  <i class="fa-solid fa-user-xmark"></i> Xóa Tài khoản
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
       </div> 
     </div>
   </div>
-
 
   <div class="modal-overlay" id="studentModal">
     <div class="modal-box">
@@ -247,7 +267,7 @@
         <h2 class="modal-title">Tạo tài khoản Giáo viên</h2>
         <div class="form-group">
           <label>Họ và Tên</label>
-          <input class="form-input" id="regName" placeholder="Ví dụ: Nguyễn Quỳnh Đức" type="text"/>
+          <input class="form-input" id="regName" placeholder="Ví dụ: Nguyễn Văn A" type="text"/>
         </div>
         <div class="form-group">
           <label>Email</label>
