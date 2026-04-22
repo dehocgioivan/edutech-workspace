@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-  <title>EduTech Workspace</title>
+  <title>EduTech Workspace - Hệ điều hành Lớp học Số</title>
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet"/>
@@ -23,14 +23,18 @@
     </div>
     
     <div class="nav-actions">
-      <button class="btn-glass" onclick="openModal('studentModal')"><i class="fa-solid fa-users"></i> Học sinh tham gia</button>
-      <button class="nav-btn" id="btnOpenLogin" onclick="openModal('teacherModal')"><i class="fa-solid fa-user-tie"></i> GV Đăng nhập</button>
+      <button class="btn-glass" onclick="openModal('studentModal')">
+        <i class="fa-solid fa-users"></i> Học sinh tham gia
+      </button>
+      <button class="nav-btn" id="btnOpenLogin" onclick="openModal('teacherModal')">
+        <i class="fa-solid fa-user-tie"></i> GV Đăng nhập
+      </button>
       
       <div class="user-profile" id="teacherProfile" style="display: none; align-items: center; gap: 10px;">
-        <img alt="Avatar" id="teacherAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-cyan);"/>
+        <img alt="Avatar" id="teacherAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-cyan); object-fit: cover;"/>
         <div class="info" style="display: flex; flex-direction: column; font-size: 13px;">
-          <div style="font-weight: bold; color: var(--primary-cyan);">Tên GV</div>
-          <div style="color: var(--text-muted);">Email GV</div>
+          <div style="font-weight: bold; color: var(--primary-cyan);" id="teacherNameDisplay">Tên GV</div>
+          <div style="color: var(--text-muted);" id="teacherEmailDisplay">Email GV</div>
         </div>
       </div>
     </div>
@@ -40,10 +44,18 @@
     <div class="dashboard-layout">
       
       <div class="sidebar">
-        <button class="sidebar-btn active" onclick="switchTab('tab-class')"><i class="fa-solid fa-chalkboard-user"></i> Quản lý Lớp học</button>
-        <button class="sidebar-btn" onclick="switchTab('tab-plan')"><i class="fa-solid fa-list-check"></i> Kế hoạch & Kho Game</button>
-        <button class="sidebar-btn" onclick="switchTab('tab-report')"><i class="fa-solid fa-chart-line"></i> Báo cáo & Thống kê</button>
-        <button class="sidebar-btn" onclick="switchTab('tab-settings')"><i class="fa-solid fa-gear"></i> Cài đặt Hệ thống</button>
+        <button class="sidebar-btn active" onclick="switchTab('tab-class')">
+          <i class="fa-solid fa-chalkboard-user"></i> Quản lý Lớp học
+        </button>
+        <button class="sidebar-btn" onclick="switchTab('tab-plan')">
+          <i class="fa-solid fa-layer-group"></i> Kế hoạch & Kho Game
+        </button>
+        <button class="sidebar-btn" onclick="switchTab('tab-report')">
+          <i class="fa-solid fa-chart-pie"></i> Báo cáo & Thống kê
+        </button>
+        <button class="sidebar-btn" onclick="switchTab('tab-settings')">
+          <i class="fa-solid fa-gear"></i> Cài đặt Hệ thống
+        </button>
       </div>
 
       <div class="main-content">
@@ -51,9 +63,9 @@
         <div class="tab-panel active" id="tab-class">
           
           <div class="app-card">
-            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-id-card"></i> Định danh Mạng lưới</h3>
+            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-id-card"></i> Định danh Mạng lưới Giáo viên</h3>
             <div class="form-group">
-              <label>Mã định danh Giáo viên (Tiền tố kết nối bắt buộc)</label>
+              <label>Mã định danh Giáo viên (Tiền tố bắt buộc để HS kết nối - VD: GVDUYEN01)</label>
               <div style="display: flex; gap: 10px;">
                 <input class="form-input" id="teacherUniqueId" oninput="this.value = this.value.toUpperCase()" type="text" value="GVDUYEN01"/>
                 <button class="btn-glass" onclick="updateTeacherId()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
@@ -62,15 +74,15 @@
           </div>
 
           <div class="app-card">
-            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-users-rectangle"></i> Thêm Lớp Học Mới</h3>
+            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-users-rectangle"></i> Khởi tạo Lớp học Mới</h3>
             
             <div class="form-group">
               <label>Chế độ thiết bị đăng nhập</label>
-              <div style="display: flex; gap: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px;">
-                <label style="color: white; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <div style="display: flex; gap: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid var(--card-border);">
+                <label style="color: white; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600;">
                   <input type="radio" name="deviceMode" value="group" checked> Theo Nhóm (1 máy / Nhóm)
                 </label>
-                <label style="color: white; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <label style="color: white; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600;">
                   <input type="radio" name="deviceMode" value="student"> Theo Học Sinh (1 máy / HS)
                 </label>
               </div>
@@ -83,20 +95,20 @@
 
             <div id="input-direct" style="display: block;">
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="form-group"><label>Mã Lớp (VD: 10A6)</label><input type="text" id="dirClass" class="form-input"></div>
+                <div class="form-group"><label>Mã Lớp (VD: 10A6)</label><input type="text" id="dirClass" class="form-input" placeholder="Nhập mã lớp..."></div>
                 <div class="form-group"><label>Năm Học (VD: 2026-2027)</label><input type="text" id="dirYear" class="form-input" value="2026-2027"></div>
-                <div class="form-group"><label>Sĩ số</label><input type="number" id="dirTotal" class="form-input"></div>
-                <div class="form-group"><label>Số nhóm</label><input type="number" id="dirGroups" class="form-input"></div>
+                <div class="form-group"><label>Sĩ số</label><input type="number" id="dirTotal" class="form-input" placeholder="32"></div>
+                <div class="form-group"><label>Số lượng nhóm</label><input type="number" id="dirGroups" class="form-input" placeholder="6"></div>
               </div>
               <div class="form-group">
-                <label>Danh sách thành viên (Mỗi người 1 dòng theo mẫu: Tên Học Sinh - NHOM)</label>
-                <textarea class="form-input" id="dirMembers" rows="5" placeholder="Nguyễn Văn A - NHOM1&#10;Nguyễn Văn B - NHOM2"></textarea>
+                <label>Danh sách thành viên (Mỗi người 1 dòng theo mẫu: Tên Học Sinh - TÊN NHÓM)</label>
+                <textarea class="form-input" id="dirMembers" rows="6" placeholder="Nguyễn Văn A - NHOM1&#10;Nguyễn Văn B - NHOM2&#10;Trần Thị C - NHOM1"></textarea>
               </div>
             </div>
 
             <div id="input-txt" style="display: none;">
               <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-family: monospace; font-size: 13px; color: #a5b4fc; border: 1px dashed rgba(165, 180, 252, 0.3);">
-                <b>Cấu trúc file .txt mẫu:</b><br/>
+                <b>Cấu trúc file .txt chuẩn:</b><br/>
                 [LOP]: 10A6<br/>
                 [NAMHOC]: 2026-2027<br/>
                 [SISO]: 32<br/>
@@ -107,54 +119,66 @@
                 Nguyễn Văn B - NHOM2<br/>
                 }
               </div>
-              <textarea class="form-input" id="txtClassEditor" rows="8" placeholder="Paste nội dung TXT vào đây..."></textarea>
-              <button class="btn-glass" onclick="downloadClassTemplate()" style="margin-top:10px;"><i class="fa-solid fa-download"></i> Tải File Mẫu</button>
+              <textarea class="form-input" id="txtClassEditor" rows="8" placeholder="Paste nội dung TXT của bạn vào đây..."></textarea>
+              <button class="btn-glass" onclick="downloadClassTemplate()" style="margin-top:10px;"><i class="fa-solid fa-download"></i> Tải File TXT Mẫu</button>
             </div>
 
-            <button class="btn-submit" onclick="processAndSaveClass()"><i class="fa-solid fa-microchip"></i> XỬ LÝ & LƯU LỚP HỌC</button>
+            <button class="btn-submit" onclick="processAndSaveClass()" style="margin-top: 20px;"><i class="fa-solid fa-microchip"></i> KIỂM TRA & LƯU LỚP HỌC</button>
           </div>
         </div>
 
         <div class="tab-panel" id="tab-plan">
           
-          <div class="app-card" style="border-color: var(--primary-purple);">
+          <div class="app-card" style="border-color: var(--primary-purple); box-shadow: 0 0 20px rgba(138, 43, 226, 0.05);">
             <h3 style="color: var(--primary-purple);"><i class="fa-solid fa-timeline"></i> Lên Kế Hoạch Bài Giảng</h3>
             
             <div class="form-group" style="margin-top: 15px;">
-              <label>Tên / Tiêu đề buổi học</label>
+              <label>Tên / Tiêu đề Giáo án</label>
               <input class="form-input" id="planTitle" type="text" placeholder="VD: TIẾT 1-2 CHÍ PHÈO" style="font-size: 16px; font-weight: bold; color: var(--primary-cyan);">
             </div>
 
             <div id="timelineBuilder" style="margin: 30px 0 30px 10px; border-left: 2px dashed var(--card-border); padding-left: 25px;">
-              <div style="color: var(--text-muted); font-style: italic; font-size: 14px;">Chưa có tính năng nào trong kế hoạch. Hãy chọn từ Thư viện bên dưới.</div>
+              <div style="color: var(--text-muted); font-style: italic; font-size: 14px;">Chưa có tính năng nào trong kế hoạch. Hãy chọn từ Kho Ứng Dụng bên dưới.</div>
             </div>
 
-            <div style="margin-top: 25px; padding: 20px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="margin-top: 25px; padding: 20px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
               <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                <div style="width: 45px; height: 45px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                   <i class="fa-solid fa-robot" style="color: var(--success);"></i>
                 </div>
                 <div>
-                  <div style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">AI Phân tích Thời lượng</div>
-                  <div id="aiTimeEstimate" style="font-weight: 900; font-size: 22px; color: var(--success);">0 phút</div>
+                  <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">AI Phân tích Thời lượng</div>
+                  <div id="aiTimeEstimate" style="font-weight: 900; font-size: 24px; color: var(--success);">0 phút</div>
                 </div>
               </div>
-              <button class="btn-submit" style="width: auto; margin-top: 0; padding: 10px 25px; font-size: 14px;">LƯU KẾ HOẠCH LÊN ĐÁM MÂY</button>
+              <button class="btn-submit" style="width: auto; margin-top: 0; padding: 12px 30px; font-size: 14px;">LƯU GIÁO ÁN VÀO CLOUD</button>
             </div>
           </div>
 
-          <h2 style="margin: 40px 0 20px; font-weight: 800; color: #fff;">Kho Ứng Dụng & Trò Chơi (56+)</h2>
+          <div style="margin: 50px 0 20px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <h2 style="font-weight: 900; color: #fff; font-size: 1.8rem; margin-bottom: 5px;">Kho Ứng Dụng & Trò Chơi</h2>
+              <p style="color: var(--text-muted); font-size: 0.95rem;">Hệ sinh thái 56+ module độc lập. Bấm vào Card để cấu hình.</p>
+            </div>
+          </div>
+          
           <div class="app-grid" id="featureLibraryGrid">
             </div>
 
         </div>
 
         <div class="tab-panel" id="tab-report">
-          <div class="app-card"><h3 style="color: var(--primary-cyan);">Báo cáo & Thống kê</h3><p>Tính năng đang phát triển...</p></div>
+          <div class="app-card">
+            <h3 style="color: var(--primary-cyan);"><i class="fa-solid fa-chart-pie"></i> Báo cáo & Thống kê</h3>
+            <p style="color: var(--text-muted); margin-top: 10px;">Biểu đồ thống kê kết quả học tập sẽ hiển thị tại đây.</p>
+          </div>
         </div>
 
         <div class="tab-panel" id="tab-settings">
-          <div class="app-card"><h3 style="color: var(--primary-cyan);">Cài đặt Hệ thống</h3><p>Tính năng đang phát triển...</p></div>
+          <div class="app-card">
+            <h3 style="color: var(--primary-cyan);"><i class="fa-solid fa-gear"></i> Cài đặt Hệ thống</h3>
+            <p style="color: var(--text-muted); margin-top: 10px;">Cấu hình tài khoản, đồng bộ hóa Repository đang được phát triển.</p>
+          </div>
         </div>
 
       </div> 
@@ -170,16 +194,16 @@
       
       <div class="form-group">
         <label>Mã Đăng Nhập (Ví dụ: GVDUYEN01_10A6_2026_N1)</label>
-        <input class="form-input" id="studentGroupId" placeholder="Nhập mã định danh..." type="text"/>
+        <input class="form-input" id="studentGroupId" placeholder="Mã định danh cá nhân/nhóm..." type="text" style="font-size: 16px; font-weight: 600; color: var(--primary-cyan); text-align: center; letter-spacing: 1px;"/>
       </div>
       
       <div class="form-group">
-        <label>Mã PIN Phiên (4 số)</label>
+        <label style="text-align: center;">Mật khẩu Phiên học (PIN 4 số)</label>
         <div class="pin-inputs">
-          <input class="pin-box" maxlength="1" type="text"/>
-          <input class="pin-box" maxlength="1" type="text"/>
-          <input class="pin-box" maxlength="1" type="text"/>
-          <input class="pin-box" maxlength="1" type="text"/>
+          <input class="pin-box" maxlength="1" type="password" inputmode="numeric"/>
+          <input class="pin-box" maxlength="1" type="password" inputmode="numeric"/>
+          <input class="pin-box" maxlength="1" type="password" inputmode="numeric"/>
+          <input class="pin-box" maxlength="1" type="password" inputmode="numeric"/>
         </div>
       </div>
       
@@ -199,7 +223,7 @@
       <div class="auth-form active" id="formLogin">
         <h2 class="modal-title">Chào mừng trở lại!</h2>
         <div class="form-group">
-          <label>Email</label>
+          <label>Email Nhà trường</label>
           <input class="form-input" id="loginEmail" placeholder="Nhập email..." type="email"/>
         </div>
         <div class="form-group">
@@ -214,16 +238,16 @@
           <div style="flex: 1; border-bottom: 1px solid var(--card-border);"></div>
         </div>
 
-        <button class="btn-submit" id="btnGoogleLogin" style="background: white; color: #333; margin-top: 0;">
-          <i class="fa-brands fa-google" style="color: #DB4437; margin-right: 8px;"></i> ĐĂNG NHẬP GOOGLE
+        <button class="btn-submit" id="btnGoogleLogin" style="background: white; color: #333; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <i class="fa-brands fa-google" style="color: #DB4437; font-size: 18px;"></i> TIẾP TỤC VỚI GOOGLE
         </button>
       </div>
 
       <div class="auth-form" id="formRegister">
-        <h2 class="modal-title">Tạo tài khoản mới</h2>
+        <h2 class="modal-title">Tạo tài khoản Giáo viên</h2>
         <div class="form-group">
           <label>Họ và Tên</label>
-          <input class="form-input" id="regName" placeholder="Nguyễn Văn A" type="text"/>
+          <input class="form-input" id="regName" placeholder="Ví dụ: Nguyễn Quỳnh Đức" type="text"/>
         </div>
         <div class="form-group">
           <label>Email</label>
@@ -233,7 +257,7 @@
           <label>Mật khẩu</label>
           <input class="form-input" id="regPass" placeholder="••••••••" type="password"/>
         </div>
-        <button class="btn-submit" id="btnTeacherRegister">ĐĂNG KÝ NGAY</button>
+        <button class="btn-submit" id="btnTeacherRegister">ĐĂNG KÝ HỆ THỐNG</button>
       </div>
     </div>
   </div>
@@ -241,20 +265,29 @@
   <div class="modal-overlay" id="featureConfigModal">
     <div class="modal-box" style="max-width: 600px;">
       <button class="btn-close" onclick="closeModals()"><i class="fa-solid fa-xmark"></i></button>
-      <h2 class="modal-title" id="fcTitle">Tên Trò Chơi</h2>
-      <p class="modal-subtitle" id="fcDesc">Hướng dẫn chi tiết cách chơi...</p>
+      
+      <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+        <div id="fcIconBox" style="width: 40px; height: 40px; background: rgba(0, 240, 255, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary-cyan);">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <h2 class="modal-title" id="fcTitle" style="text-align: left; margin-bottom: 0;">Tên Trò Chơi</h2>
+      </div>
+      
+      <p class="modal-subtitle" id="fcDesc" style="text-align: left;">Hướng dẫn chi tiết cách cấu hình...</p>
       
       <div class="form-group" id="fcDataSection">
-        <label style="color: var(--primary-cyan);"><i class="fa-solid fa-database"></i> Dữ liệu Trò chơi (Câu hỏi/Từ vựng)</label>
-        <button class="btn-glass" onclick="downloadGameTemplate()" style="font-size: 12px; margin-bottom: 10px;"><i class="fa-solid fa-download"></i> Tải Form Mẫu (TXT)</button>
-        <textarea class="form-input" id="fcDataInput" rows="6" placeholder="Nhập trực tiếp hoặc dán nội dung file TXT câu hỏi vào đây..."></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label style="color: var(--primary-cyan); margin-bottom: 0;"><i class="fa-solid fa-database"></i> Dữ liệu Trò chơi (Câu hỏi / Từ vựng)</label>
+          <button class="btn-glass" onclick="downloadGameTemplate()" style="font-size: 11px; padding: 5px 10px; height: auto;"><i class="fa-solid fa-download"></i> Form Mẫu (TXT)</button>
+        </div>
+        <textarea class="form-input" id="fcDataInput" rows="7" placeholder="Bạn có thể gõ trực tiếp câu hỏi hoặc dán toàn bộ nội dung file TXT vào đây..."></textarea>
       </div>
 
       <div style="display: flex; gap: 15px; margin-top: 25px;">
-        <button class="btn-glass" onclick="addToPlan()" style="flex: 1; border-color: var(--primary-purple); color: var(--primary-purple);">
-          <i class="fa-solid fa-plus"></i> Kế hoạch
+        <button class="btn-glass" onclick="addToPlan()" style="flex: 1; border-color: var(--primary-purple); color: var(--text-main);">
+          <i class="fa-solid fa-calendar-plus" style="color: var(--primary-purple);"></i> Đưa vào Kế hoạch
         </button>
-        <button class="btn-submit" onclick="playStandalone()" style="flex: 1; margin-top: 0;">
+        <button class="btn-submit" onclick="playStandalone()" style="flex: 1; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
           <i class="fa-solid fa-play"></i> CHƠI NGAY
         </button>
       </div>
@@ -263,25 +296,25 @@
 
   <section class="hero">
     <h1>EduTech Workspace<br/>Lớp Học Không Gian Số</h1>
-    <p>Hệ sinh thái học tập tương tác, Server-Driven UI. Mọi tính năng đồng bộ Realtime từ giáo viên đến học sinh mà không cần tải lại trang.</p>
+    <p>Hệ sinh thái giáo dục Server-Driven UI tích hợp 56+ module tương tác thời gian thực. Truyền tải kịch bản giảng dạy và gamification trực tiếp đến thiết bị học sinh mà không cần tải app.</p>
   </section>
 
   <section class="app-container">
     <div class="app-grid">
-      <div class="grid-card">
-        <div class="icon-box"><i class="fa-solid fa-list-check c-cyan"></i></div>
-        <h3 class="card-title">Quản lý Kịch bản (Lesson Plan)</h3>
-        <p class="card-desc">Chuyển từ sử dụng ngẫu nhiên sang chạy kịch bản đồng bộ AI quản lý thời lượng.</p>
+      <div class="grid-card" onclick="openModal('teacherModal')">
+        <div class="icon-box"><i class="fa-solid fa-layer-group c-cyan"></i></div>
+        <h3 class="card-title">Kịch bản Thông minh</h3>
+        <p class="card-desc">Thiết kế timeline bài giảng, AI tự động phân bổ và cảnh báo cháy giáo án.</p>
       </div>
-      <div class="grid-card">
-        <div class="icon-box"><i class="fa-solid fa-user-check c-purple"></i></div>
-        <h3 class="card-title">Điểm danh Khuôn mặt</h3>
-        <p class="card-desc">AI quét camera cục bộ, siêu nhẹ, nhận diện chính xác không cần Cloud Vision.</p>
+      <div class="grid-card" onclick="openModal('teacherModal')">
+        <div class="icon-box"><i class="fa-solid fa-expand c-purple"></i></div>
+        <h3 class="card-title">Tương tác Realtime</h3>
+        <p class="card-desc">Bảng trắng chung, WebAR, sơ đồ tư duy đa điểm chạm trên mọi thiết bị.</p>
       </div>
-      <div class="grid-card">
-        <div class="icon-box"><i class="fa-solid fa-swords c-orange"></i></div>
-        <h3 class="card-title">Đấu trường Gamification</h3>
-        <p class="card-desc">Hơn 50 chế độ chơi: Battle Royale, Kéo co, Đối kháng, Boss Raid cho bài kiểm tra.</p>
+      <div class="grid-card" onclick="openModal('teacherModal')">
+        <div class="icon-box"><i class="fa-solid fa-gamepad c-orange"></i></div>
+        <h3 class="card-title">Gamification Đỉnh cao</h3>
+        <p class="card-desc">Đấu trường sinh tồn, Kéo co trí tuệ, Boss Raid... biến bài kiểm tra thành trò chơi.</p>
       </div>
     </div>
   </section>
