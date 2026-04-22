@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
 import { getDatabase, ref, set, get, onValue, child } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -20,32 +20,50 @@ const provider = new GoogleAuthProvider();
 let currentTeacher = null;
 
 /* =========================================================
+   A0. KIỂM TRA TRẠNG THÁI DUY TRÌ ĐĂNG NHẬP (LÚC RELOAD)
+========================================================= */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // 1. Trình duyệt nhận diện có người đang đăng nhập
+    currentTeacher = user;
+    
+    // 2. Cập nhật UI Navbar
+    document.getElementById('btnOpenLogin').style.display = 'none';
+    document.getElementById('teacherProfile').style.display = 'flex';
+    document.getElementById('teacherNameDisplay').textContent = currentTeacher.displayName;
+    document.getElementById('teacherEmailDisplay').textContent = currentTeacher.email;
+    if(currentTeacher.photoURL) {
+      document.getElementById('teacherAvatar').src = currentTeacher.photoURL;
+    }
+
+    // 3. Tự động phục hồi ID Giáo viên
+    const autoId = "GV_" + currentTeacher.uid.substring(0, 5).toUpperCase();
+    document.getElementById('teacherUniqueId').value = autoId;
+
+    // 4. Chuyển thẳng vào Dashboard thay vì ở trang chủ
+    document.querySelector('.hero').style.display = 'none';
+    document.querySelector('.app-container').style.display = 'none';
+    document.getElementById('teacherDashboard').style.display = 'block';
+    
+    console.log("Đã phục hồi phiên đăng nhập của:", currentTeacher.email);
+  } else {
+    // 5. Không có ai đăng nhập (Khách vãng lai hoặc đã đăng xuất)
+    currentTeacher = null;
+    document.getElementById('btnOpenLogin').style.display = 'block';
+    document.getElementById('teacherProfile').style.display = 'none';
+  }
+});
+
+/* =========================================================
    A. ĐĂNG NHẬP GIÁO VIÊN BẰNG GOOGLE
 ========================================================= */
 const btnGoogleLogin = document.getElementById('btnGoogleLogin');
 if(btnGoogleLogin) {
   btnGoogleLogin.addEventListener('click', () => {
     signInWithPopup(auth, provider).then((result) => {
-      currentTeacher = result.user;
-      
-      document.getElementById('btnOpenLogin').style.display = 'none';
-      document.getElementById('teacherProfile').style.display = 'flex';
-      
-      // Khớp với ID mới trong index.html
-      document.getElementById('teacherNameDisplay').textContent = currentTeacher.displayName;
-      document.getElementById('teacherEmailDisplay').textContent = currentTeacher.email;
-      if(currentTeacher.photoURL) document.getElementById('teacherAvatar').src = currentTeacher.photoURL;
-
-      // Sinh mã định danh ngắn gọn dựa trên UID
-      const autoId = "GV_" + currentTeacher.uid.substring(0, 5).toUpperCase();
-      document.getElementById('teacherUniqueId').value = autoId;
-
       window.closeModals();
-      document.querySelector('.hero').style.display = 'none';
-      document.querySelector('.app-container').style.display = 'none';
-      document.getElementById('teacherDashboard').style.display = 'block';
-      
-      alert("Đăng nhập thành công! Chào mừng thầy/cô " + currentTeacher.displayName);
+      alert("Đăng nhập thành công! Chào mừng thầy/cô " + result.user.displayName);
+      // Ghi chú: Không cần viết code chuyển UI ở đây vì onAuthStateChanged phía trên sẽ tự động bắt được event và xử lý.
     }).catch((error) => {
       alert("Lỗi đăng nhập Google: " + error.message);
     });
@@ -53,7 +71,24 @@ if(btnGoogleLogin) {
 }
 
 /* =========================================================
-   B. LƯU LỚP HỌC LÊN FIREBASE CLOUD (Ghi đè hàm app.js)
+   A1. ĐĂNG XUẤT TÀI KHOẢN
+========================================================= */
+const btnLogout = document.getElementById('btnLogout');
+if(btnLogout) {
+  btnLogout.addEventListener('click', () => {
+    if(confirm("Thầy/cô có chắc chắn muốn đăng xuất khỏi hệ thống?")) {
+      signOut(auth).then(() => {
+        // Reload lại trang web để reset toàn bộ cache và đưa về màn hình chính
+        window.location.reload();
+      }).catch((error) => {
+        alert("Lỗi đăng xuất: " + error.message);
+      });
+    }
+  });
+}
+
+/* =========================================================
+   B. LƯU LỚP HỌC LÊN FIREBASE CLOUD
 ========================================================= */
 window.processAndSaveClass = function() {
   if(!currentTeacher) return alert("Vui lòng đăng nhập Google trước khi lưu dữ liệu Lớp học!");
