@@ -1,3 +1,6 @@
+/* =========================================================
+   1. VARIABLES & RESET
+========================================================= */
 :root {
   --bg-color: #050b14;
   --primary-cyan: #00f0ff;
@@ -10,7 +13,11 @@
   --success: #10b981;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 body {
   font-family: 'Inter', sans-serif;
@@ -20,7 +27,9 @@ body {
   line-height: 1.6;
 }
 
-/* Background Effects */
+/* =========================================================
+   2. BACKGROUND EFFECTS & ANIMATIONS
+========================================================= */
 .bg-orbs {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
@@ -45,7 +54,6 @@ body {
   100% { transform: translate(50px, 50px); }
 }
 
-/* Animations chung */
 @keyframes slideUpFade {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -56,7 +64,9 @@ body {
   to { opacity: 1; transform: translateY(0); } 
 }
 
-/* Navbar */
+/* =========================================================
+   3. NAVBAR & BUTTONS
+========================================================= */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -81,6 +91,7 @@ body {
 
 .nav-actions { display: flex; gap: 15px; }
 
+/* Nút bấm kính suốt */
 .btn-glass {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--card-border);
@@ -92,8 +103,12 @@ body {
   backdrop-filter: blur(5px);
   transition: all 0.3s;
 }
-.btn-glass:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary-cyan); }
+.btn-glass:hover { 
+  background: rgba(255, 255, 255, 0.1); 
+  border-color: var(--primary-cyan); 
+}
 
+/* Nút Navbar Gradient */
 .nav-btn {
   background: linear-gradient(45deg, var(--primary-purple), var(--primary-cyan));
   border: none;
@@ -109,7 +124,7 @@ body {
   box-shadow: 0 10px 20px rgba(0, 240, 255, 0.3);
 }
 
-/* Nút bấm 3D chính */
+/* Nút bấm chính 3D (Submit/Play) */
 .btn-submit {
   width: 100%;
   background: linear-gradient(45deg, var(--primary-purple), var(--primary-cyan));
@@ -132,9 +147,12 @@ body {
   transform: translateY(1px);
 }
 
-/* Form Inputs (Dùng chung) */
+/* =========================================================
+   4. FORM INPUTS & TABS
+========================================================= */
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; }
+
 .form-input {
   width: 100%;
   padding: 12px 15px;
@@ -148,7 +166,34 @@ body {
 }
 .form-input:focus { border-color: var(--primary-cyan); }
 
-/* --- BỐ CỤC DASHBOARD GIÁO VIÊN MỚI --- */
+/* Tab chuyển đổi trong Form */
+.inner-tabs { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 20px; 
+  background: rgba(0,0,0,0.2); 
+  padding: 5px; 
+  border-radius: 12px; 
+}
+.inner-tab { 
+  flex: 1; 
+  text-align: center; 
+  padding: 10px; 
+  cursor: pointer; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  color: var(--text-muted); 
+  transition: 0.3s; 
+}
+.inner-tab.active { 
+  background: var(--card-bg); 
+  color: var(--primary-cyan); 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2); 
+}
+
+/* =========================================================
+   5. DASHBOARD LAYOUT (GIÁO VIÊN)
+========================================================= */
 .dashboard-layout {
   display: flex;
   min-height: 80vh;
@@ -189,7 +234,11 @@ body {
   gap: 12px;
 }
 .sidebar-btn:hover { background: rgba(255, 255, 255, 0.05); color: white; }
-.sidebar-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--primary-cyan); border-left: 4px solid var(--primary-cyan); }
+.sidebar-btn.active { 
+  background: rgba(0, 240, 255, 0.1); 
+  color: var(--primary-cyan); 
+  border-left: 4px solid var(--primary-cyan); 
+}
 
 .main-content { flex: 1; min-width: 0; }
 
@@ -199,11 +248,6 @@ body {
   animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
 }
 
-/* Các tab bên trong form */
-.inner-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; }
-.inner-tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; border-radius: 8px; font-weight: 600; color: var(--text-muted); transition: 0.3s; }
-.inner-tab.active { background: var(--card-bg); color: var(--primary-cyan); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-
 .app-card {
   background: var(--card-bg); border: 1px solid var(--card-border);
   border-radius: 20px; padding: 30px;
@@ -211,7 +255,9 @@ body {
   margin-bottom: 30px;
 }
 
-/* Hero Section (Trang chủ) */
+/* =========================================================
+   6. HERO SECTION & APP GRID (3D EFFECT)
+========================================================= */
 .hero {
   text-align: center;
   padding: 80px 20px 40px;
@@ -225,7 +271,48 @@ body {
 }
 .hero p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; }
 
-/* Modals (Đăng nhập / Mã phiên / Config Trò chơi) */
+.app-container { max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
+
+/* Grid tích hợp góc nhìn 3D */
+.app-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 30px; 
+  perspective: 1000px; 
+}
+
+/* Thẻ Card Game/Tính năng 3D */
+.grid-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+  border: 1px solid var(--card-border);
+  border-radius: 20px; 
+  padding: 25px; 
+  backdrop-filter: blur(16px);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer; 
+  position: relative; 
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+.grid-card:hover { 
+  transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); 
+  border-color: var(--primary-cyan); 
+  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5), 
+              -20px -20px 60px rgba(0, 240, 255, 0.05); 
+}
+
+.icon-box { 
+  width: 50px; height: 50px; border-radius: 12px; 
+  display: flex; align-items: center; justify-content: center; 
+  font-size: 24px; margin-bottom: 15px; 
+  background: rgba(255, 255, 255, 0.05); 
+}
+.card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
+.card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+/* =========================================================
+   7. MODALS & POPUPS
+========================================================= */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
@@ -272,41 +359,9 @@ body {
 }
 .pin-box:focus { border-color: var(--primary-cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
 
-/* Applications Grid 3D (Dùng cho Trang chủ & Thư viện) */
-.app-container { max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
-.app-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-  gap: 30px; 
-  perspective: 1000px; /* Tạo chiều sâu 3D */
-}
-
-/* Thẻ 3D Card */
-.grid-card {
-  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-  border: 1px solid var(--card-border);
-  border-radius: 20px; 
-  padding: 25px; 
-  backdrop-filter: blur(16px);
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  cursor: pointer; 
-  position: relative; 
-  overflow: hidden;
-  transform-style: preserve-3d;
-}
-
-.grid-card:hover { 
-  transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); 
-  border-color: var(--primary-cyan); 
-  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5), 
-              -20px -20px 60px rgba(0, 240, 255, 0.05); 
-}
-
-.icon-box { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); }
-.card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
-.card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
-
-/* Colors Utility */
+/* =========================================================
+   8. UTILITIES & FOOTER
+========================================================= */
 .c-cyan { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
 .c-purple { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
 .c-green { color: #00ff66; text-shadow: 0 0 10px #00ff66; }
@@ -314,7 +369,7 @@ body {
 
 footer { text-align: center; padding: 30px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.9rem; }
 
-/* Responsive */
+/* Responsive Mobile */
 @media (max-width: 768px) {
   .dashboard-layout { flex-direction: column; padding: 20px 5%; }
   .sidebar { width: 100%; position: static; }
