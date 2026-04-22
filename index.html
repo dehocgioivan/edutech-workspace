@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <title>EduTech Workspace</title>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet"/>
+  
+  <link href="css/style.css" rel="stylesheet"/>
+</head>
+
+<body>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fa-solid fa-atom"></i> EduTech
+    </div>
+    
+    <div class="nav-actions">
+      <button class="btn-glass" onclick="openModal('studentModal')"><i class="fa-solid fa-users"></i> Học sinh tham gia</button>
+      <button class="nav-btn" id="btnOpenLogin" onclick="openModal('teacherModal')"><i class="fa-solid fa-user-tie"></i> GV Đăng nhập</button>
+      
+      <div class="user-profile" id="teacherProfile" style="display: none; align-items: center; gap: 10px;">
+        <img alt="Avatar" id="teacherAvatar" src="" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-cyan);"/>
+        <div class="info" style="display: flex; flex-direction: column; font-size: 13px;">
+          <div style="font-weight: bold; color: var(--primary-cyan);">Tên GV</div>
+          <div style="color: var(--text-muted);">Email GV</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="teacherDashboard" style="display: none;">
+    <div class="dashboard-layout">
+      
+      <div class="sidebar">
+        <button class="sidebar-btn active" onclick="switchTab('tab-class')"><i class="fa-solid fa-chalkboard-user"></i> Quản lý Lớp học</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-plan')"><i class="fa-solid fa-list-check"></i> Kế hoạch Giảng dạy</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-report')"><i class="fa-solid fa-chart-line"></i> Báo cáo &amp; Thống kê</button>
+        <button class="sidebar-btn" onclick="switchTab('tab-settings')"><i class="fa-solid fa-gear"></i> Cài đặt Hệ thống</button>
+      </div>
+
+      <div class="main-content">
+        
+        <div class="tab-panel active" id="tab-class">
+          
+          <div class="app-card">
+            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-id-card"></i> Cấu hình Định danh</h3>
+            <div class="form-group">
+              <label>Mã định danh Giáo viên (Prefix để HS kết nối)</label>
+              <div style="display: flex; gap: 10px;">
+                <input class="form-input" id="teacherUniqueId" oninput="this.value = this.value.toUpperCase()" type="text" value="GVDUYEN01"/>
+                <button class="btn-glass" onclick="updateTeacherId()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="app-card">
+            <h3 style="color: var(--primary-cyan); margin-bottom: 20px;"><i class="fa-solid fa-file-import"></i> Import Dữ liệu Lớp học (Định dạng TXT)</h3>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-family: monospace; font-size: 13px; color: #a5b4fc; border: 1px dashed rgba(165, 180, 252, 0.3);">
+              <b>Cấu trúc file .txt mẫu:</b><br/>
+              [LOP]: 10A1<br/>
+              [NAMHOC]: 2026-2027<br/>
+              [NHOM]: 6<br/>
+              [SISO]: 32<br/>
+              [THANHVIEN]:<br/>
+              1. Nguyễn Văn A [NHOM 1]<br/>
+              2. Lê Thị B [NHOM 2]
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+              <input accept=".txt" id="txtFileInput" onchange="handleFileImport(event)" style="display: none;" type="file"/>
+              <button class="btn-submit" onclick="document.getElementById('txtFileInput').click()" style="width: auto; margin-top: 0;"><i class="fa-solid fa-file-arrow-up"></i> Tải lên file TXT</button>
+              <button class="btn-glass" onclick="exportToTXT()"><i class="fa-solid fa-download"></i> Tải File Mẫu / Lưu nội dung</button>
+            </div>
+
+            <div class="form-group">
+              <label>Trình soạn thảo trực tiếp (Hoặc Upload file):</label>
+              <textarea class="form-input" id="classDataEditor" placeholder="Nhập thông tin lớp tại đây..." rows="12" style="font-family: monospace; font-size: 14px; white-space: pre; line-height: 1.5;"></textarea>
+            </div>
+            
+            <button class="btn-submit" onclick="parseAndSaveClass()"><i class="fa-solid fa-microchip"></i> XỬ LÝ DỮ LIỆU &amp; TẠO LỚP</button>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-plan">
+          <div class="app-card">
+            <h3 style="color: var(--primary-purple); margin-bottom: 20px;"><i class="fa-solid fa-timeline"></i> Soạn Kịch bản Bài giảng</h3>
+            
+            <div class="form-group">
+              <label>Tên / Tiêu đề buổi học</label>
+              <input class="form-input" id="planTitle" placeholder="VD: TIẾT 1-2 CHÍ PHÈO" style="font-size: 16px; font-weight: bold; color: var(--primary-cyan);" type="text"/>
+            </div>
+
+            <div id="timelineBuilder" style="margin: 30px 0 30px 10px; border-left: 2px dashed var(--card-border); padding-left: 25px;">
+              <div style="color: var(--text-muted); font-style: italic; font-size: 14px;">Chưa có tính năng nào trong kế hoạch. Hãy thêm ở phía dưới.</div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--card-border);">
+              <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
+                <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 250px;">
+                  <label>Chọn Tính năng / Trò chơi có sẵn:</label>
+                  <select class="form-input" id="featureSelect" style="background: #0f172a;">
+                    </select>
+                </div>
+                <button class="btn-glass" onclick="addFeatureToPlan()" style="height: 48px;"><i class="fa-solid fa-plus"></i> Thêm vào Kịch bản</button>
+              </div>
+            </div>
+
+            <div style="margin-top: 25px; padding: 20px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                  <i class="fa-solid fa-robot" style="color: var(--success);"></i>
+                </div>
+                <div>
+                  <div style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">AI Phân tích Thời lượng</div>
+                  <div id="aiTimeEstimate" style="font-weight: 900; font-size: 22px; color: var(--success);">0 phút</div>
+                </div>
+              </div>
+              <button class="btn-submit" style="width: auto; margin-top: 0; padding: 10px 25px; font-size: 14px;">LƯU KẾ HOẠCH LÊN ĐÁM MÂY</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-report">
+          <div class="app-card"><h3 style="color: var(--primary-cyan);">Báo cáo &amp; Thống kê</h3><p>Tính năng đang phát triển...</p></div>
+        </div>
+        <div class="tab-panel" id="tab-settings">
+          <div class="app-card"><h3 style="color: var(--primary-cyan);">Cài đặt Hệ thống</h3><p>Tính năng đang phát triển...</p></div>
+        </div>
+
+      </div> </div>
+  </div>
+
+
+  <div class="modal-overlay" id="studentModal">
+    <div class="modal-box">
+      <button class="btn-close" onclick="closeModals()"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="modal-title">Vào Lớp Học</h2>
+      <p class="modal-subtitle">Nhập mã ID Nhóm và Pass phiên học do Giáo viên cung cấp.</p>
+      
+      <div class="form-group">
+        <label>Mã ID Cá nhân / Nhóm (Vd: GVDUYEN01-NGUYENVANA)</label>
+        <input class="form-input" id="studentGroupId" placeholder="Nhập mã định danh..." type="text"/>
+      </div>
+      
+      <div class="form-group">
+        <label>Mã PIN Phiên (4 số)</label>
+        <div class="pin-inputs">
+          <input class="pin-box" maxlength="1" type="text"/>
+          <input class="pin-box" maxlength="1" type="text"/>
+          <input class="pin-box" maxlength="1" type="text"/>
+          <input class="pin-box" maxlength="1" type="text"/>
+        </div>
+      </div>
+      
+      <button class="btn-submit" id="btnJoinClass"><i class="fa-solid fa-right-to-bracket"></i> KẾT NỐI SERVERLESS</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="teacherModal">
+    <div class="modal-box">
+      <button class="btn-close" onclick="closeModals()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">Đăng nhập</div>
+        <div class="auth-tab" onclick="switchAuthTab('register')">Đăng ký</div>
+      </div>
+
+      <div class="auth-form active" id="formLogin">
+        <h2 class="modal-title">Chào mừng trở lại!</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-input" id="loginEmail" placeholder="Nhập email..." type="email"/>
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu</label>
+          <input class="form-input" id="loginPass" placeholder="••••••••" type="password"/>
+        </div>
+        <button class="btn-submit" id="btnTeacherLogin">ĐĂNG NHẬP EMAIL</button>
+        
+        <div style="display: flex; align-items: center; text-align: center; margin: 20px 0; color: var(--text-muted); font-size: 12px; font-weight: 600;">
+          <div style="flex: 1; border-bottom: 1px solid var(--card-border);"></div>
+          <span style="padding: 0 10px;">HOẶC</span>
+          <div style="flex: 1; border-bottom: 1px solid var(--card-border);"></div>
+        </div>
+
+        <button class="btn-submit" id="btnGoogleLogin" style="background: white; color: #333; margin-top: 0;">
+          <i class="fa-brands fa-google" style="color: #DB4437; margin-right: 8px;"></i> ĐĂNG NHẬP GOOGLE
+        </button>
+      </div>
+
+      <div class="auth-form" id="formRegister">
+        <h2 class="modal-title">Tạo tài khoản mới</h2>
+        <div class="form-group">
+          <label>Họ và Tên</label>
+          <input class="form-input" id="regName" placeholder="Nguyễn Văn A" type="text"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-input" id="regEmail" placeholder="email@truong.edu.vn" type="email"/>
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu</label>
+          <input class="form-input" id="regPass" placeholder="••••••••" type="password"/>
+        </div>
+        <button class="btn-submit" id="btnTeacherRegister">ĐĂNG KÝ NGAY</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1>EduTech Workspace<br/>Lớp Học Không Gian Số</h1>
+    <p>Hệ sinh thái học tập tương tác, Server-Driven UI. Mọi tính năng đồng bộ Realtime từ giáo viên đến học sinh mà không cần tải lại trang.</p>
+  </section>
+
+  <section class="app-container">
+    <div class="app-grid">
+      <div class="grid-card">
+        <div class="icon-box"><i class="fa-solid fa-list-check c-cyan"></i></div>
+        <h3 class="card-title">Quản lý Kịch bản (Lesson Plan)</h3>
+        <p class="card-desc">Chuyển từ sử dụng ngẫu nhiên sang chạy kịch bản đồng bộ AI quản lý thời lượng.</p>
+      </div>
+      <div class="grid-card">
+        <div class="icon-box"><i class="fa-solid fa-user-check c-purple"></i></div>
+        <h3 class="card-title">Điểm danh Khuôn mặt</h3>
+        <p class="card-desc">AI quét camera cục bộ, siêu nhẹ, nhận diện chính xác không cần Cloud Vision.</p>
+      </div>
+      <div class="grid-card">
+        <div class="icon-box"><i class="fa-solid fa-swords c-orange"></i></div>
+        <h3 class="card-title">Đấu trường Gamification</h3>
+        <p class="card-desc">Hơn 30 chế độ chơi: Battle Royale, Kéo co, Đối kháng, Boss Raid cho bài kiểm tra.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&#169; 2026 EduTech AI Platform. Kiến trúc Serverless Firebase.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script type="module" src="js/firebase.js"></script>
+
+</body>
+</html>
