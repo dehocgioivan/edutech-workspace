@@ -61,6 +61,20 @@ window.toggleInputMode = function(mode) {
    2. LOGIC QUẢN LÝ LỚP HỌC (NHẬP FORM / PARSE TXT MỚI)
 ========================================================= */
 
+// Hàm tải file an toàn, tương thích mọi trình duyệt
+window.downloadFile = function(filename, text) {
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.style.display = "none";
+  a.href = url; 
+  a.download = filename;
+  document.body.appendChild(a); // Bắt buộc phải thêm vào DOM mới click được
+  a.click(); 
+  document.body.removeChild(a); // Dọn dẹp
+  URL.revokeObjectURL(url);
+}
+
 window.downloadClassTemplate = function() {
   const content = "[LOP]: 10A6\n[NAMHOC]: 2026-2027\n[SISO]: 32\n[SONHOM]: 6\n[THANHVIEN]:\n{\nNguyễn Văn A - NHOM1\nNguyễn Văn B - NHOM2\nNguyễn Văn C - NHOM3\n}";
   downloadFile("MauLopHoc.txt", content);
@@ -129,14 +143,8 @@ window.processAndSaveClass = function() {
   console.log("JSON Lớp Học (Sẵn sàng đưa lên DB):", classData);
   alert(loginInstructions);
   
-  // Ở đây sau này sẽ gọi hàm đẩy classData lên Firebase do firebase.js quản lý
-}
-
-function downloadFile(filename, text) {
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+  // Tương lai: Gọi hàm đẩy classData lên Firebase do firebase.js quản lý
+  // window.saveClassToFirebase(classData);
 }
 
 /* =========================================================
